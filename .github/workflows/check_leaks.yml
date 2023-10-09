@@ -1,26 +1,17 @@
-name: Verificar Fugas con Gitleaks
+name: Leak Check
 
 on:
   push:
     branches:
-      - main  # Cambia 'main' por el nombre de tu rama principal si es diferente
+      - master
 
 jobs:
   check-leaks:
-    runs-on: ubuntu-latest  # Puedes cambiar el sistema operativo si es necesario
+    runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout código
-        uses: actions/checkout@v2  # Esta acción permite obtener el código en el runner
+    - name: Checkout code
+      uses: actions/checkout@v2
 
-      - name: Descargar Gitleaks
-        run: |
-          wget https://github.com/zricethezav/gitleaks/releases/latest/download/gitleaks-linux-amd64 -O gitleaks
-          chmod +x gitleaks
-          sudo mv gitleaks /usr/local/bin/
-        env:
-          PATH: ${{ runner.path }}:/usr/local/bin
-
-      - name: Verificar Fugas con Gitleaks
-        run: |
-          gitleaks
+    - name: Run GitLeaks
+      uses: zricethezav/gitleaks-action@v5
